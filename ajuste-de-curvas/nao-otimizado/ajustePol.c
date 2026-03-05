@@ -12,6 +12,22 @@
 //   AJUSTE DE CURVAS
 /////////////////////////////////////////////////////////////////////////////////////
 
+//juntar x e y nos pares eh x e nos ímpares é y
+//colocar na diagonal os ngc
+//preencher y simultaneamente
+void montaSL(double **A, double *b, int n, long long int p, double *x, double *y) {
+  for (int i = 0; i < n; ++i){
+    b[i] = 0.0;
+    for (int j = 0; j < n; ++j){
+      A[i][j] = 0.0;
+    }
+  }
+
+  for (int k = 0; k < n; ++k){
+    
+  }
+}
+
 void montaSL(double **A, double *b, int n, long long int p, double *x, double *y) {
   for (int i = 0; i < n; ++i)
     for (int j = 0; j < n; ++j) {
