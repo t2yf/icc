@@ -12,37 +12,49 @@
 //   AJUSTE DE CURVAS
 /////////////////////////////////////////////////////////////////////////////////////
 
-//juntar x e y nos pares eh x e nos ímpares é y
-//colocar na diagonal os ngc
-//preencher y simultaneamente
-void montaSL(double **A, double *b, int n, long long int p, double *x, double *y) {
-  for (int i = 0; i < n; ++i){
-    b[i] = 0.0;
-    for (int j = 0; j < n; ++j){
+
+void montaSL(double **A, double *b, int n, long long int p, double *xy) {
+    //inicializar
+    for (int i = 0; i < n; ++i){
+      b[i] = 0.0;
+      for (int j = 0; j < n; ++j) 
       A[i][j] = 0.0;
     }
-  }
+    //o primeiro somatório eh o numero de pontos
+    A[0][0] = (double)p;
 
-  for (int k = 0; k < n; ++k){
-    
-  }
-}
+    //passar por todos os pontos da amostra
+    for(int i = 0; i < p; ++i){
+      double x = xy[2*i];
+      double y = xy[2*i + 1];
 
-void montaSL(double **A, double *b, int n, long long int p, double *x, double *y) {
-  for (int i = 0; i < n; ++i)
-    for (int j = 0; j < n; ++j) {
-      A[i][j] = 0.0;
-      for (long long int k = 0; k < p; ++k) {
-	A[i][j] += pow(x[k], i+j);
+      double pow_x;
+      //somar todos os y[i] (multiplicado por 1)
+      b[0] += y;
+
+      pow_x = 1.0;
+      //preencher primeira linha e a coluna de b
+      for(int j = 1; j < n; ++j){ //passar pelo grau
+        pow_x *= x;
+        A[0][j] += pow_x;
+        b[j] += pow_x*y;
+      }
+
+      //preencher ultima coluna
+      for(int k = 1; k < n; ++k){
+        pow_x *= x;
+        A[k][n-1] += pow_x;
       }
     }
-
-  for (int i = 0; i < n; ++i) {
-    b[i] = 0.0;
-    for (long long int k = 0; k < p; ++k)
-      b[i] += pow(x[k],i) * y[k];
-  }
+    //preencher restante da matriz
+    for(int i = 1; i < n; ++i){
+      for(int j = 0; j < n-1; ++j){
+        A[i][j] = A[i-1][j+1];
+      }
+    }
 }
+
+
 
 double Pol(double x, int G, double *alpha) {
   double Px = alpha[0];
@@ -61,23 +73,29 @@ int main() {
   p = P;   // quantidade de pontos
   g = G+1; // tamanho do SL (G + 1)
 
-  double *x = (double *) malloc(sizeof(double)*p);
-  double *y = (double *) malloc(sizeof(double)*p);
-
+  double *xy = (double *) malloc(sizeof(double)*2*p);
+  
   // ler numeros
   for (long long int i = 0; i < p; ++i)
-    scanf("%lf %lf", x+i, y+i);
+    scanf("%lf %lf", &xy[2*i], &xy[2*i + 1]);
 
-  double **A = (double **) malloc(sizeof(double *)*g);
-  for (int i = 0; i < g; ++i)
-    A[i] = (double *) malloc(sizeof(double)*g);
+  //4. melhorar alocação de matriz
+  double **A =(double **) malloc(sizeof(double *)*g);
+  A[0] = malloc(sizeof(double *)*g*g);
+
+  for(int i = 0; i < g; ++i){
+    A[i] = A[0] + i*g;
+  }
+  // double **A = (double **) malloc(sizeof(double *)*g);
+  // for (int i = 0; i < g; ++i)
+  //   A[i] = (double *) malloc(sizeof(double)*g);
   
   double *b = (double *) malloc(sizeof(double)*g);
   double *alpha = (double *) malloc(sizeof(double)*g); // coeficientes ajuste
   
   // (A) Gera SL
   double tSL = timestamp();
-  montaSL(A, b, g, p, x, y);
+  montaSL(A, b, g, p, xy);
   tSL = timestamp() - tSL;
 
   // (B) Resolve SL
@@ -94,7 +112,7 @@ int main() {
   // Imprime resíduos
   printf("Resíduos\n");
   for (long long int i = 0; i < p; ++i)
-    printf("%1.15e ", fabs(y[i] - Pol(x[i],G,alpha)) );
+    printf("%1.15e ", fabs(xy[2*i + 1] - Pol(xy[2*i], G, alpha)) );
   puts("");
 
   // Imprime os tempos
