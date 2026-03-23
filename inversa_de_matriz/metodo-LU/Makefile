@@ -1,6 +1,6 @@
 # PROGRAMA
-    PROGS = ajustePol gera_entrada
-    OBJS = utils.o linear.o
+    PROGS = main
+    OBJS = resolveinversa.o 
 
        LIKWID = /home/soft/likwid
  LIKWID_FLAGS = -I$(LIKWID)/include
@@ -22,7 +22,7 @@ DISTDIR = login-dinf
 
 .PHONY: all clean purge dist
 
-%o: %c utils.h linear.h
+%o: %c resolveinversa.h
 	$(CC) -o $@ $(CFLAGS) $^
 
 all: $(PROGS)
