@@ -45,12 +45,18 @@ double **criaMatrizIdentidade(int n){
 // Correto!
 double **fatoracaoLU(double **A, double **I, int n){
   for(int i =0; i<n; ++i){
+    printf("matriz LU dentro loop\n");
+    imprimeMatriz(A, n);
+    printf("matriz I dentro loop\n");
+    imprimeMatriz(I, n);
     int iMax = i;
+    //TODO fazer pivoteamento parcial
     for(int k = i+1; k<n; ++k){
       if(A[k][i] > A[iMax][i])
         iMax = k;
     }
     if(iMax != i){
+      //TODO melhoria só utilizar um vetor que aponta para as trocas 
       double *tmp;
       tmp = A[i];
       A[i] = A[iMax];
@@ -100,7 +106,10 @@ void resolveInversa(double **A, double **A_inversa, int n ){
   double **I = criaMatrizIdentidade(n);
   double **LU = fatoracaoLU(A, I, n);
   double *y, *x, *b;
-
+  printf("matriz LU\n");
+  imprimeMatriz(A, n);
+  printf("matriz I\n");
+  imprimeMatriz(I, n);
 
   b = (double *) malloc(sizeof(double)*n);
   y = (double *) malloc(sizeof(double)*n);
@@ -113,11 +122,22 @@ void resolveInversa(double **A, double **A_inversa, int n ){
       // Ly = b
       b[j] = I[i][j];
     }
+      printf("vetor b:\n");
+      imprimeVetor(b, n);
       resolveLy(LU, b, &y, n);
+      //printf("vetor y:\n");
+      //imprimeVetor(y, n);
       resolveUx(LU, y, &x, n);
+      //printf("vetor x:\n");
+      //imprimeVetor(x, n);
+      //printf("\n");
       for(int k = 0; k < n; k++){
         A_inversa[k][i] = x[k];
-      }    
+      }
+      //A_inversa[i][j] = x[j]; 
+      //printf("matriz Ainversa parcial\n");
+      //imprimeMatriz(A_inversa, n);
+    
   }
 
 }

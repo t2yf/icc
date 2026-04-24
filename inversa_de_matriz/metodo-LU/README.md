@@ -1,0 +1,1 @@
+Os arquivos originais não foram utilizados, pois eu havia feito esse exercício antes de abrir no Moodle, além disso queria apenas implementar a lógica de resolver a matriz inversa, sem me preocupar com o likwid
