@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Forma de uso:
+#
+#         perfctr <GRUPO_PERFORMANCE> ./matmult <opcoes_matmult>
+#
+# Exemplo, para fazer as medições de performance de FLOPS_DP no core 3
+#
+#         perfctr FLOPS_DP ./matmult -n 64
+#
+
+LIKWID_CMD="likwid-perfctr -C 3 -g $1 -m"
+shift 1
+
+${LIKWID_CMD} $*
+
+# Para obter topologia dos cpu's
+#      likwid-topology -c -g
+
+# Para obter lista de grupos de indicadores de performance:
+#      likwid-perfctr -a
+
+# Para obter lista de Eventos e Contadores
+#      likwid-perfctr -e
+
