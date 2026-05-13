@@ -3,8 +3,8 @@
            CC = gcc -std=c11 -g
          OBJS = matriz.o
 
-       CFLAGS =  -I${LIKWID_HOME}/include -DLIKWID_PERFMON -O3 -mavx2 -march=native
-       LFLAGS = -L${LIKWID_HOME}/lib -llikwid -lm 
+       CFLAGS =  -I ${LIKWID_HOME}/include -DLIKWID_PERFMON -O3 -mavx2 -march=native
+       LFLAGS = -L ${LIKWID_HOME}/lib -llikwid -lm 
 
 # Lista de arquivos para distribuição
 DISTFILES = *.c *.h *.txt Makefile Resultados perfctr 
@@ -27,7 +27,8 @@ $(PROG): $(OBJS)
 
 clean limpa:
 	@echo "Limpando ...."
-	@rm -f *~ *.bak *.tmp
+	@rm -f *~ *.bak *.tmp 
+
 
 purge faxina:   clean
 	@echo "Faxina ...."
