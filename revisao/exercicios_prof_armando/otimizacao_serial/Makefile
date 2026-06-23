@@ -1,8 +1,8 @@
-V ?= 0
+V ?= 0 
 
 TARGET = prova
-CC = gcc
-CFLAGS = -DV=$(V) -Wall -Werror -DLIKWID_PERFMON -I$(LIKWID_INCLUDE)
+GCC = gcc 
+CFLAGS = -DV=$(V) -Wall -Werror -O3 -mavx2 -march=native -DLIKWID_PERFMON -I$(LIKWID_INCLUDE) 
 LFLAGS = -L$(LIKWID_LIB) -llikwid -lm 
 
 SRC = $(wildcard *.c)

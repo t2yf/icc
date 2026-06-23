@@ -1,0 +1,82 @@
+--------------------------------------------------------------------------------
+CPU name:	Intel(R) Core(TM) i5-8250U CPU @ 1.60GHz
+CPU type:	Intel Kabylake processor
+CPU clock:	1.80 GHz
+--------------------------------------------------------------------------------
+Region matMatNormal, Group 1: ENERGY
++-------------------+------------+
+|    Region Info    | HWThread 3 |
++-------------------+------------+
+| RDTSC Runtime [s] |   0.001067 |
+|     call count    |          1 |
++-------------------+------------+
++-----------------------+---------+------------+
+|         Event         | Counter | HWThread 3 |
++-----------------------+---------+------------+
+|   INSTR_RETIRED_ANY   |  FIXC0  |    7113737 |
+| CPU_CLK_UNHALTED_CORE |  FIXC1  |    3539447 |
+|  CPU_CLK_UNHALTED_REF |  FIXC2  |    1878225 |
+|       TEMP_CORE       |   TMP0  |         59 |
+|     PWR_PKG_ENERGY    |   PWR0  |     0.0160 |
+|     PWR_PP0_ENERGY    |   PWR1  |     0.0192 |
+|     PWR_PP1_ENERGY    |   PWR2  |          0 |
+|    PWR_DRAM_ENERGY    |   PWR3  |     0.0011 |
++-----------------------+---------+------------+
++----------------------+------------+
+|        Metric        | HWThread 3 |
++----------------------+------------+
+|  Runtime (RDTSC) [s] |     0.0011 |
+| Runtime unhalted [s] |     0.0020 |
+|      Clock [MHz]     |  3392.0348 |
+|          CPI         |     0.4976 |
+|    Temperature [C]   |         59 |
+|      Energy [J]      |     0.0160 |
+|       Power [W]      |    14.9820 |
+|    Energy PP0 [J]    |     0.0192 |
+|     Power PP0 [W]    |    18.0128 |
+|    Energy PP1 [J]    |          0 |
+|     Power PP1 [W]    |          0 |
+|    Energy DRAM [J]   |     0.0011 |
+|    Power DRAM [W]    |     1.0293 |
++----------------------+------------+
+--------------------------------------------------------------------------------
+CPU name:	Intel(R) Core(TM) i5-8250U CPU @ 1.60GHz
+CPU type:	Intel Kabylake processor
+CPU clock:	1.80 GHz
+--------------------------------------------------------------------------------
+Region matVetNormal, Group 1: ENERGY
++-------------------+------------+
+|    Region Info    | HWThread 3 |
++-------------------+------------+
+| RDTSC Runtime [s] |   0.000017 |
+|     call count    |          1 |
++-------------------+------------+
++-----------------------+---------+------------+
+|         Event         | Counter | HWThread 3 |
++-----------------------+---------+------------+
+|   INSTR_RETIRED_ANY   |  FIXC0  |      64043 |
+| CPU_CLK_UNHALTED_CORE |  FIXC1  |      57878 |
+|  CPU_CLK_UNHALTED_REF |  FIXC2  |      30900 |
+|       TEMP_CORE       |   TMP0  |         57 |
+|     PWR_PKG_ENERGY    |   PWR0  |     0.0146 |
+|     PWR_PP0_ENERGY    |   PWR1  |     0.0031 |
+|     PWR_PP1_ENERGY    |   PWR2  |          0 |
+|    PWR_DRAM_ENERGY    |   PWR3  |          0 |
++-----------------------+---------+------------+
++----------------------+--------------+
+|        Metric        |  HWThread 3  |
++----------------------+--------------+
+|  Runtime (RDTSC) [s] | 1.745222e-05 |
+| Runtime unhalted [s] | 3.215444e-05 |
+|      Clock [MHz]     |    3371.5340 |
+|          CPI         |       0.9037 |
+|    Temperature [C]   |           57 |
+|      Energy [J]      |       0.0146 |
+|       Power [W]      |     835.8478 |
+|    Energy PP0 [J]    |       0.0031 |
+|     Power PP0 [W]    |     174.8636 |
+|    Energy PP1 [J]    |            0 |
+|     Power PP1 [W]    |            0 |
+|    Energy DRAM [J]   |            0 |
+|    Power DRAM [W]    |            0 |
++----------------------+--------------+

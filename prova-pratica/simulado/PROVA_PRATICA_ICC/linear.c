@@ -52,19 +52,19 @@ void eliminacaoGaussUnrolling(double **A, double *b, int n) {
       b[iMax] = aux;
     }
 
-    for (int k = i+1; k < n-n%5; k+=5) {
+    for (int k = i+1; k < n - (n-i-1)%4; k+=4) {
       double aii = A[i][i];
       double m0 = A[k][i] / aii;
       double m1 = A[k+1][i] / aii;
       double m2 = A[k+2][i] / aii;
       double m3 = A[k+3][i] / aii;
-      double m4 = A[k+4][i] / aii;
+      //double m4 = A[k+4][i] / aii;
 
       A[k][i] = 0.0;
       A[k+1][i] = 0.0;
       A[k+2][i] = 0.0;
       A[k+3][i] = 0.0;
-      A[k+4][i] = 0.0;
+     // A[k+4][i] = 0.0;
 
       for (int j = i+1; j < n; ++j)
 	      A[k][j] -= A[i][j]*m0;
@@ -78,17 +78,18 @@ void eliminacaoGaussUnrolling(double **A, double *b, int n) {
       for (int j = i+1; j < n; ++j)
 	      A[k+3][j] -= A[i][j]*m3;
       
-      for (int j = i+1; j < n; ++j)
-	      A[k+4][j] -= A[i][j]*m4;
+      // for (int j = i+1; j < n; ++j)
+	    //   A[k+4][j] -= A[i][j]*m4;
 
 
       b[k] -= b[i]*m0;
       b[k+1] -= b[i]*m1;
       b[k+2] -= b[i]*m2;
       b[k+3] -= b[i]*m3;
-      b[k+4] -= b[i]*m4;
+      //b[k+4] -= b[i]*m4;
     }
-    for (int k = n-n%5; k < n; ++k) {
+    for (int k = n - (n-i-1)%4; k < n; ++k) {
+
       double m = A[k][i] / A[i][i];
       A[k][i]  = 0.0;
       for (int j = i+1; j < n; ++j)
@@ -96,6 +97,7 @@ void eliminacaoGaussUnrolling(double **A, double *b, int n) {
       b[k] -= b[i]*m;
     }
   }
+
 }
 
 
@@ -118,19 +120,19 @@ void eliminacaoGaussUnrollingEJam(double **A, double *b, int n) {
       b[iMax] = aux;
     }
 
-    for (int k = i+1; k < n-n%5; k+=5) {
+    for (int k = i+1; k < n - (n-i-1)%4; k+=4) {
       double aii =  A[i][i];
       double m0 = A[k][i] /aii;
       double m1 = A[k+1][i] / aii;
       double m2 = A[k+2][i] / aii;
       double m3 = A[k+3][i] / aii;
-      double m4 = A[k+4][i] / aii;
+      //double m4 = A[k+4][i] / aii;
 
       A[k][i] = 0.0;
       A[k+1][i] = 0.0;
       A[k+2][i] = 0.0;
       A[k+3][i] = 0.0;
-      A[k+4][i] = 0.0;
+     // A[k+4][i] = 0.0;
 
       for (int j = i+1; j < n; ++j){
         double aij = A[i][j];
@@ -138,7 +140,7 @@ void eliminacaoGaussUnrollingEJam(double **A, double *b, int n) {
         A[k+1][j] -= aij*m1;
         A[k+2][j] -= aij*m2;
         A[k+3][j] -= aij*m3;
-        A[k+4][j] -= aij*m4;
+       // A[k+4][j] -= aij*m4;
       }
 	      
 
@@ -146,9 +148,9 @@ void eliminacaoGaussUnrollingEJam(double **A, double *b, int n) {
       b[k+1] -= b[i]*m1;
       b[k+2] -= b[i]*m2;
       b[k+3] -= b[i]*m3;
-      b[k+4] -= b[i]*m4;
+     // b[k+4] -= b[i]*m4;
     }
-    for (int k = n-n%5; k < n; ++k) {
+    for (int k = n - (n-i-1)%4; k < n; ++k) {
       double m = A[k][i] / A[i][i];
       A[k][i]  = 0.0;
       for (int j = i+1; j < n; ++j)
@@ -156,6 +158,60 @@ void eliminacaoGaussUnrollingEJam(double **A, double *b, int n) {
       b[k] -= b[i]*m;
     }
   }
+}
+
+void gaussSeidel(double **A, double *b, double *x, int n){
+  int max_iter = 10;
+  double s;
+  for(int iter = 0; iter < max_iter; iter++){
+    printf("iter %d\n", iter);
+    for(int i = 0; i < n; ++i){
+      s = 0.0;
+      //double old_xi = x[i];
+      for(int j = 0; j < i; ++j){
+        s += A[i][j] * x[j];
+      }
+      for(int j = i+1; j < n; ++j){
+        s += A[i][j] * x[j];
+      }
+      x[i] = (b[i] - s) / A[i][i];
+
+      // double err = fabs(x[i] - old_xi);
+      // if(err > max_err)
+      //   max_err = err;
+    }
+    // if(max_err < tol)
+    //   break;
+  }
+}
+
+void gaussJacobi(double **A, double *b, double *x, int n){
+  int max_iter = 25;
+  double *x_old = (double *) malloc(sizeof(double) * n);
+  double s;
+  for(int iter = 0; iter < max_iter; iter++){
+    for(int i = 0; i < n; i++){
+      x_old[i] = x[i];
+    }
+    for(int i = 0; i < n; ++i){
+      s = 0.0;
+      //double old_xi = x[i];
+      for(int j = 0; j < i; ++j){
+        s += A[i][j] * x_old[j];
+      }
+      for(int j = i+1; j < n; ++j){
+        s += A[i][j] * x_old[j];
+      }
+      x[i] = (b[i] - s) / A[i][i];
+
+      // double err = fabs(x[i] - old_xi);
+      // if(err > max_err)
+      //   max_err = err;
+    }
+    // if(max_err < tol)
+    //   break;
+  }
+  free(x_old);
 }
 
 

@@ -1,0 +1,70 @@
+--------------------------------------------------------------------------------
+CPU name:	Intel(R) Core(TM) i5-8250U CPU @ 1.60GHz
+CPU type:	Intel Kabylake processor
+CPU clock:	1.80 GHz
+--------------------------------------------------------------------------------
+Region matVetNormal, Group 1: FLOPS_DP
++-------------------+------------+
+|    Region Info    | HWThread 3 |
++-------------------+------------+
+| RDTSC Runtime [s] |   0.000030 |
+|     call count    |          1 |
++-------------------+------------+
++------------------------------------------+---------+------------+
+|                   Event                  | Counter | HWThread 3 |
++------------------------------------------+---------+------------+
+|             INSTR_RETIRED_ANY            |  FIXC0  |     101635 |
+|           CPU_CLK_UNHALTED_CORE          |  FIXC1  |      89023 |
+|           CPU_CLK_UNHALTED_REF           |  FIXC2  |      50400 |
+| FP_ARITH_INST_RETIRED_128B_PACKED_DOUBLE |   PMC0  |          0 |
+|    FP_ARITH_INST_RETIRED_SCALAR_DOUBLE   |   PMC1  |      32785 |
+| FP_ARITH_INST_RETIRED_256B_PACKED_DOUBLE |   PMC2  |          0 |
++------------------------------------------+---------+------------+
++-------------------------+--------------+
+|          Metric         |  HWThread 3  |
++-------------------------+--------------+
+|   Runtime (RDTSC) [s]   | 3.019722e-05 |
+|   Runtime unhalted [s]  | 4.945722e-05 |
+|       Clock [MHz]       |    3179.3929 |
+|           CPI           |       0.8759 |
+|       DP [MFLOP/s]      |    1085.6960 |
+|     AVX DP [MFLOP/s]    |            0 |
+|     Packed [MUOPS/s]    |            0 |
+|     Scalar [MUOPS/s]    |    1085.6960 |
+| Vectorization ratio [%] |            0 |
++-------------------------+--------------+
+--------------------------------------------------------------------------------
+CPU name:	Intel(R) Core(TM) i5-8250U CPU @ 1.60GHz
+CPU type:	Intel Kabylake processor
+CPU clock:	1.80 GHz
+--------------------------------------------------------------------------------
+Region matMatNormal, Group 1: FLOPS_DP
++-------------------+------------+
+|    Region Info    | HWThread 3 |
++-------------------+------------+
+| RDTSC Runtime [s] |   0.002717 |
+|     call count    |          1 |
++-------------------+------------+
++------------------------------------------+---------+------------+
+|                   Event                  | Counter | HWThread 3 |
++------------------------------------------+---------+------------+
+|             INSTR_RETIRED_ANY            |  FIXC0  |   14864020 |
+|           CPU_CLK_UNHALTED_CORE          |  FIXC1  |    8232185 |
+|           CPU_CLK_UNHALTED_REF           |  FIXC2  |    4590825 |
+| FP_ARITH_INST_RETIRED_128B_PACKED_DOUBLE |   PMC0  |          0 |
+|    FP_ARITH_INST_RETIRED_SCALAR_DOUBLE   |   PMC1  |    4194321 |
+| FP_ARITH_INST_RETIRED_256B_PACKED_DOUBLE |   PMC2  |          0 |
++------------------------------------------+---------+------------+
++-------------------------+------------+
+|          Metric         | HWThread 3 |
++-------------------------+------------+
+|   Runtime (RDTSC) [s]   |     0.0027 |
+|   Runtime unhalted [s]  |     0.0046 |
+|       Clock [MHz]       |  3227.7277 |
+|           CPI           |     0.5538 |
+|       DP [MFLOP/s]      |  1543.9677 |
+|     AVX DP [MFLOP/s]    |          0 |
+|     Packed [MUOPS/s]    |          0 |
+|     Scalar [MUOPS/s]    |  1543.9677 |
+| Vectorization ratio [%] |          0 |
++-------------------------+------------+

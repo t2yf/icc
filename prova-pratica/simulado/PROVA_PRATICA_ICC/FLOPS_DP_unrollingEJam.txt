@@ -1,0 +1,35 @@
+--------------------------------------------------------------------------------
+CPU name:	Intel(R) Core(TM) i5-8250U CPU @ 1.60GHz
+CPU type:	Intel Kabylake processor
+CPU clock:	1.80 GHz
+--------------------------------------------------------------------------------
+Region unrollingEJam, Group 1: FLOPS_DP
++-------------------+------------+
+|    Region Info    | HWThread 3 |
++-------------------+------------+
+| RDTSC Runtime [s] |   9.571914 |
+|     call count    |         36 |
++-------------------+------------+
++------------------------------------------+---------+--------------+
+|                   Event                  | Counter |  HWThread 3  |
++------------------------------------------+---------+--------------+
+|             INSTR_RETIRED_ANY            |  FIXC0  | 114145300000 |
+|           CPU_CLK_UNHALTED_CORE          |  FIXC1  |  32325990000 |
+|           CPU_CLK_UNHALTED_REF           |  FIXC2  |  17154140000 |
+| FP_ARITH_INST_RETIRED_128B_PACKED_DOUBLE |   PMC0  |            0 |
+|    FP_ARITH_INST_RETIRED_SCALAR_DOUBLE   |   PMC1  |   7465329000 |
+| FP_ARITH_INST_RETIRED_256B_PACKED_DOUBLE |   PMC2  |            0 |
++------------------------------------------+---------+--------------+
++-------------------------+------------+
+|          Metric         | HWThread 3 |
++-------------------------+------------+
+|   Runtime (RDTSC) [s]   |     9.5719 |
+|   Runtime unhalted [s]  |    17.9589 |
+|       Clock [MHz]       |  3391.9965 |
+|           CPI           |     0.2832 |
+|       DP [MFLOP/s]      |   779.9202 |
+|     AVX DP [MFLOP/s]    |          0 |
+|     Packed [MUOPS/s]    |          0 |
+|     Scalar [MUOPS/s]    |   779.9202 |
+| Vectorization ratio [%] |          0 |
++-------------------------+------------+

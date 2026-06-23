@@ -1,0 +1,66 @@
+--------------------------------------------------------------------------------
+CPU name:	Intel(R) Core(TM) i5-8250U CPU @ 1.60GHz
+CPU type:	Intel Kabylake processor
+CPU clock:	1.80 GHz
+--------------------------------------------------------------------------------
+Region matVetNormal, Group 1: L3CACHE
++-------------------+------------+
+|    Region Info    | HWThread 3 |
++-------------------+------------+
+| RDTSC Runtime [s] |   0.000016 |
+|     call count    |          1 |
++-------------------+------------+
++--------------------------+---------+------------+
+|           Event          | Counter | HWThread 3 |
++--------------------------+---------+------------+
+|     INSTR_RETIRED_ANY    |  FIXC0  |      63135 |
+|   CPU_CLK_UNHALTED_CORE  |  FIXC1  |      53074 |
+|   CPU_CLK_UNHALTED_REF   |  FIXC2  |      28275 |
+|  MEM_LOAD_RETIRED_L3_HIT |   PMC0  |         54 |
+| MEM_LOAD_RETIRED_L3_MISS |   PMC1  |         47 |
+|     UOPS_RETIRED_ALL     |   PMC2  |      74941 |
++--------------------------+---------+------------+
++----------------------+--------------+
+|        Metric        |  HWThread 3  |
++----------------------+--------------+
+|  Runtime (RDTSC) [s] | 1.574111e-05 |
+| Runtime unhalted [s] | 2.948556e-05 |
+|      Clock [MHz]     |    3378.7162 |
+|          CPI         |       0.8406 |
+|    L3 request rate   |       0.0013 |
+|     L3 miss rate     |       0.0006 |
+|     L3 miss ratio    |       0.4653 |
++----------------------+--------------+
+--------------------------------------------------------------------------------
+CPU name:	Intel(R) Core(TM) i5-8250U CPU @ 1.60GHz
+CPU type:	Intel Kabylake processor
+CPU clock:	1.80 GHz
+--------------------------------------------------------------------------------
+Region matMatNormal, Group 1: L3CACHE
++-------------------+------------+
+|    Region Info    | HWThread 3 |
++-------------------+------------+
+| RDTSC Runtime [s] |   0.001019 |
+|     call count    |          1 |
++-------------------+------------+
++--------------------------+---------+------------+
+|           Event          | Counter | HWThread 3 |
++--------------------------+---------+------------+
+|     INSTR_RETIRED_ANY    |  FIXC0  |    7113443 |
+|   CPU_CLK_UNHALTED_CORE  |  FIXC1  |    3381642 |
+|   CPU_CLK_UNHALTED_REF   |  FIXC2  |    1794525 |
+|  MEM_LOAD_RETIRED_L3_HIT |   PMC0  |        457 |
+| MEM_LOAD_RETIRED_L3_MISS |   PMC1  |        378 |
+|     UOPS_RETIRED_ALL     |   PMC2  |    8111039 |
++--------------------------+---------+------------+
++----------------------+--------------+
+|        Metric        |  HWThread 3  |
++----------------------+--------------+
+|  Runtime (RDTSC) [s] |       0.0010 |
+| Runtime unhalted [s] |       0.0019 |
+|      Clock [MHz]     |    3391.9592 |
+|          CPI         |       0.4754 |
+|    L3 request rate   |       0.0001 |
+|     L3 miss rate     | 4.660315e-05 |
+|     L3 miss ratio    |       0.4527 |
++----------------------+--------------+
