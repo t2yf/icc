@@ -21,7 +21,7 @@ Tridiag *genTridiag (EDo *edo)
   sl->Ds = (real_t *) calloc(n, sizeof(real_t));
   sl->B = (real_t *) calloc(n, sizeof(real_t));
 
-  real_t h = (edo->b - edo->a)/(n+1);
+  real_t h = (edo->b - edo->a)/(n+1); // tamanho do passo na malha
 
   for (int i=0; i < n; ++i) {
     x = edo->a + (i+1)*h;
@@ -43,19 +43,21 @@ rtime_t gaussSeidel_3Diag (Tridiag *sl, real_t *Y, unsigned int maxiter)
   int n = sl->n;
   
   rtime_t tTotal = timestamp();
-
+  real_t tol = 1e-5;
+  real_t residuo = 1.0 + tol;
   
   // algoritmo  Gauss-Seidel   com  vetores   das  diagonais   e  termos
   // independentes do SL
-  for(int i = 0; i < maxiter; ++i){
-    for(int k = 0; k < n; k++){
-      real_t b = sl->B[k];
+  for(int i = 0; i < maxiter && residuo > tol; ++i){
+    Y[0] = (sl->B[0] - sl->Ds[0] * Y[1]) / sl->D[0];
 
-      if(k > 0) b -= sl->Di[k] * Y[k-1];
-      if(k < n-1) b -= sl->Ds[k] *Y[k+1];
+    for(int i = 1; i < n-1; ++i){
+      Y[i] = (sl->B[i] - sl->Ds[i]*Y[i+1] - sl->Di[i-1]*Y[i-1]) / sl->D[i];
+    } 
 
-      Y[k] = b / sl->Ds[k];
-    }
+    Y[n-1] = (sl->B[n-1] - sl->Di[n-2]*Y[n-2]) / sl->D[n-1];
+
+    residuo = normaL2_3Diag(sl, Y);
   }
 
 
@@ -67,19 +69,24 @@ rtime_t gaussSeidel_3Diag (Tridiag *sl, real_t *Y, unsigned int maxiter)
 real_t normaL2_3Diag (Tridiag *sl, real_t *Y)
 {
   int n = sl->n;
-  real_t normaL2;
-
-  normaL2 = 0.0;
+  real_t normaL2 = 0.0;
 
   // algoritmo para calcular Norma L2 com  vetores   das  diagonais   e  termos
   // independentes do SL
-  for(int i = 0; i < n; i++){
-    real_t s = sl->B[i] - sl->D[i] * Y[i];
-    if(i > 0) s -= sl->Di[i] * Y[i-1];
-    if(i < n-1) s -= sl->Di[i] * Y[i+1];
-  }
-  
-  return normaL2;
+  real_t residuo;
+
+  residuo = sl->B[0] - (sl->D[0] * Y[0] + sl->Ds[0] * Y[1]);
+  normaL2 += residuo * residuo;
+
+  for(int i = 1; i < n - 1; ++i){
+    residuo = sl->B[i] - (sl->Di[i-1] * Y[i-1] + sl->D[i] * Y[i] + sl->Ds[i] * Y[i+1]);
+    normaL2 += residuo * residuo;
+  } 
+
+  residuo = sl->B[n-1] - (sl->Di[n-2] * Y[n-2] + sl->D[n-1] * Y[n-1]);
+  normaL2 += residuo * residuo;
+
+  return sqrt(normaL2);
   
 }
 
@@ -88,16 +95,31 @@ rtime_t gaussSeidel_EDO (EDo *edoeq, real_t *Y, unsigned int maxiter)
 {
   int n = edoeq->n;
   real_t x, b, yi, d, di, ds, h;
+  d = 2*h*h - 4;
+  di = 2 - h;
+  ds = 2 + h;
+  real_t tol = 1e-5;
+  real_t residuo = 1.0 + tol;
 
   rtime_t tTotal = timestamp();
 
   
   h = (edoeq->b - edoeq->a) / (n+1);
 
-  for (int k=0; k < maxiter; ++k) {
+  for (int k=0; k < maxiter && residuo > tol; ++k) {
 
     // algoritmo Gauss-Seidel usando parâmetros EDO, sem usar vetores para
     // diagonais e termos independentes do SL
+    x = edoeq->a + 1 * h;
+    Y[0] = (2*h*h*edoeq->r(x) - ds*Y[1]) / d;
+    for(int i = 1; i < n-1; ++i){
+      x = edoeq->a + (i + 1) * h; 
+      Y[i] = (2*h*h*edoeq->r(x) - di*Y[i-1] - ds*Y[i+1]) / d;
+    }
+    x = edoeq->a + n * h; 
+    Y[n-1] = (2*h*h*edoeq->r(x) - di*Y[n-2]) / d;
+
+    residuo = normaL2_EDO(edoeq, Y);
 
   }
 
@@ -108,6 +130,9 @@ real_t normaL2_EDO (EDo *edoeq, real_t *Y)
 {
   int n=edoeq->n, i;
   real_t normaL2, res, x, b, d, di, ds, h;
+  d = 2*h*h - 4;
+  di = 2 - h;
+  ds = 2 + h;
 
   normaL2 = 0.0;
 
@@ -115,8 +140,22 @@ real_t normaL2_EDO (EDo *edoeq, real_t *Y)
 
   // algoritmo para calcular Norma L2 usando parâmetros EDO, sem usar vetores para
   // diagonais e termos independentes do SL  
+  
+  x = edoeq->a + 1 * h; 
+  res = (2 * h * h * edoeq->r(x)) - (d * Y[0] + ds * Y[1]);
+  normaL2 += res * res;
 
-  return normaL2;
+  for(int i = 1; i < n - 1; ++i){
+    x = edoeq->a + (i + 1) * h; 
+    res = (2 * h * h * edoeq->r(x)) - (di * Y[i-1] + d * Y[i] + ds * Y[i+1]);
+    normaL2 += res * res;
+  }
+
+  x = edoeq->a + n * h; 
+  res = (2 * h * h * edoeq->r(x)) - (di * Y[n-2] + d * Y[n-1]);
+  normaL2 += res * res;
+
+  return sqrt(normaL2);
 }
 
 // Exibe um vetor na saída padrão
