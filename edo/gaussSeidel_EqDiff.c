@@ -47,6 +47,17 @@ rtime_t gaussSeidel_3Diag (Tridiag *sl, real_t *Y, unsigned int maxiter)
   
   // algoritmo  Gauss-Seidel   com  vetores   das  diagonais   e  termos
   // independentes do SL
+  for(int i = 0; i < maxiter; ++i){
+    for(int k = 0; k < n; k++){
+      real_t b = sl->B[k];
+
+      if(k > 0) b -= sl->Di[k] * Y[k-1];
+      if(k < n-1) b -= sl->Ds[k] *Y[k+1];
+
+      Y[k] = b / sl->Ds[k];
+    }
+  }
+
 
   return timestamp() - tTotal;
 
@@ -62,6 +73,11 @@ real_t normaL2_3Diag (Tridiag *sl, real_t *Y)
 
   // algoritmo para calcular Norma L2 com  vetores   das  diagonais   e  termos
   // independentes do SL
+  for(int i = 0; i < n; i++){
+    real_t s = sl->B[i] - sl->D[i] * Y[i];
+    if(i > 0) s -= sl->Di[i] * Y[i-1];
+    if(i < n-1) s -= sl->Di[i] * Y[i+1];
+  }
   
   return normaL2;
   

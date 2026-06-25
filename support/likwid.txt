@@ -1,0 +1,13 @@
+make OPTIM={numero}
+
+likwid-perfctr -O -C 3 -g ${m} -o ${LIKWID_OUT} -m -- ./prova
+
+
+-O #colocar em formato csv
+-C 3 #medir o core 3
+-g MEM #medir métrica MEM
+-o output_a.txt #salvar no arquivo output_a
+-m #marker mode, avaliar apenas um trecho, markers
+
+likwid-topology # exibe a arquitetura
+likwid-perfctr -a # lista os grupos de performance

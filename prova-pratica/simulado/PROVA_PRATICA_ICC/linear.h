@@ -14,6 +14,7 @@ void eliminacaoGaussUnrollingEJam(double **A, double *b, int n);
 void eliminacaoGaussUnrolling(double **A, double *b, int n);
 
 void gaussSeidel(double **A, double *b, double *x, int n);
+void gaussJacobiUnrollEJam(double **A, double *b, double *x, int n);
 void gaussJacobi(double **A, double *b, double *x, int n);
 
 void retrossubs(double **A, double *b, double *x, int n);

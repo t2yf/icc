@@ -83,7 +83,7 @@ int main ()
       // resolve SL
       LIKWID_MARKER_START("gaussJacobi");
       rtime_t ini = timestamp();
-      gaussJacobi(A, b, x, n);
+      gaussJacobiUnrollEJam(A, b, x, n);
       ini = timestamp() - ini;
       LIKWID_MARKER_STOP("gaussJacobi");
       FILE *arq;
