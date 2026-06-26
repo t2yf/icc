@@ -2,6 +2,12 @@
 #include <string.h>
 #include <math.h>
 
+//PARA LOOP UNROLLING: 
+// Se o laço não inicia em 0 o número total de elementos eh fim - inicio
+// ex: se i = 1 e fim = n-1 => i < n-1 - (fim - inicio) => i < n-1 - (n-1 -1) %m 
+//Se o laço depende de um laço externo
+// ex: se k = i+1 => k < fim - inicio => k < n - (n - (i + 1))%m => k < n - (n - i - 1)%m
+
 void eliminacaoGaussUnrolling(double **A, double *b, int n) {
   for (int i = 0; i < n; ++i) {
     int iMax = i;   	  
@@ -218,4 +224,62 @@ void resolveSLUnrolling(double **A, double *b, double *x, int n) {
 void resolveSLUnrollingEJam(double **A, double *b, double *x, int n) {  
   eliminacaoGaussUnrollingEJam(A, b, n);
   retrossubs(A, b, x, n); 
+}
+
+
+void gaussSeidelTriDiagUnrollingEJam(double *dp, double *ds, double *di, double *b, double *x, int n, double tol){
+  int iter_max = 25;
+  
+  for(int iter = 0; iter < iter_max; iter++){
+    x[0] = (b[0] - di[0]*x[1]) / dp[0];
+    for(int i = 1; i < (n-2) - (n-2)%2; i+=2){
+      x[i] = (b[i] - di[i-1]*x[i-1] - ds[i]*x[i+1]) / dp[i];
+      x[i+1] = (b[i+1] - di[i]*x[i] - ds[i+1]*x[i+2]) / dp[i+1];
+    }for(int i = 1; i < n-1; i++){
+      x[i] = (b[i] - di[i-1]*x[i-1] - ds[i]*x[i+1]) / dp[i];
+    }
+    x[n-1] = (b[n-1] - di[n-2]*x[n-2]) / dp[n-1]; 
+
+}
+
+double ex1(double *x, int n){
+  double soma = 0.0;
+  double soma0 = 0.0;
+  double soma1 = 0.0;
+  double soma2 = 0.0;
+  double soma3 = 0.0;
+  double soma4 = 0.0;
+  for (int i = 0; i < n-n%4; i+=4) {
+    //Tem dependencia em soma, que precisa do valor anterior
+    soma1 += (x[i] * x[i] * x[i] * x[i]) - 16.0 * (x[i] * x[i]) + 5.0 * x[i];
+    soma2 += (x[i+1] * x[i+1] * x[i+1] * x[i+1]) - 16.0 * (x[i+1] * x[i+1]) + 5.0 * x[i+1];
+    soma3 += (x[i+2] * x[i+2] * x[i+2] * x[i+2]) - 16.0 * (x[i+2] * x[i+2]) + 5.0 * x[i+2];
+    soma4 += (x[i+3] * x[i+3] * x[i+3] * x[i+3]) - 16.0 * (x[i+3] * x[i+3]) + 5.0 * x[i+3];
+  }
+  for (int i = n-n%4; i < n; ++i) {
+    soma0 += (x[i] * x[i] * x[i] * x[i]) - 16.0 * (x[i] * x[i]) + 5.0 * x[i];
+  }
+  soma = soma0 + soma1 + soma2 + soma3 + soma4;
+
+  return soma;
+
+}
+
+void ex2(double *dados, double *resultado, int n){
+  double limiar = 1e-5;
+  // for (int i = 0; i < n; ++i) {
+  //   if (dados[i] > limiar) {
+  //       resultado[i] = dados[i] * 0.5;
+  //   } else {
+  //       resultado[i] = dados[i];
+  //   }
+  // }
+  for (int i = 0; i < n-n%4; i+=4) {
+    resultado[i] = dados[i] > limiar ? dados[i]*0.5 : dados[i];
+    resultado[i+1] = dados[i+1] > limiar ? dados[i+1]*0.5 : dados[i+1];
+    resultado[i+2] = dados[i+2] > limiar ? dados[i+2]*0.5 : dados[i+2];
+    resultado[i+3] = dados[i+3] > limiar ? dados[i+3]*0.5 : dados[i+3];
+    
+  }for (int i = n-n%4; i < n; ++i) 
+    resultado[i] = dados[i] > limiar ? dados[i]*0.5 : dados[i];
 }
