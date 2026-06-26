@@ -85,7 +85,7 @@ void gaussSeidelTriDiag(double *dp, double *ds, double *di, double *b, double *x
     max_err = 0.0; 
 
     double x_old = x[0];
-    x[0] = (b[0] - di[0]*x[1]) / dp[0];
+    x[0] = (b[0] - ds[0]*x[1]) / dp[0];
     //norma maxima
     max_err = fabs(x[0] - x_old);
     //norma maxima relativa
